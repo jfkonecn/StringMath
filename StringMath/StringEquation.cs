@@ -10,6 +10,8 @@ namespace StringMath
     {
         public StringEquation(string stringEquation)
         {
+            if (string.IsNullOrWhiteSpace(stringEquation))
+                throw new ArgumentException(nameof(stringEquation));
 
         }
 

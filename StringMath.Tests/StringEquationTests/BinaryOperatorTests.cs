@@ -13,7 +13,15 @@ namespace StringMath.Tests.StringEquationTests
         subtract,
         multiply,
         divide,
-        pow
+        pow,
+        equals,
+        notEqual,
+        and,        
+        or,
+        greaterThan,
+        lessThan,
+        greaterThanEqualTo,
+        lessThanEqualTo
     }
 
     [TestFixture(BinaryOperators.add)]
@@ -21,10 +29,20 @@ namespace StringMath.Tests.StringEquationTests
     [TestFixture(BinaryOperators.multiply)]
     [TestFixture(BinaryOperators.divide)]
     [TestFixture(BinaryOperators.pow)]
+    [TestFixture(BinaryOperators.equals)]
+    [TestFixture(BinaryOperators.notEqual)]
+    [TestFixture(BinaryOperators.and)]
+    [TestFixture(BinaryOperators.or)]
+    [TestFixture(BinaryOperators.greaterThan)]
+    [TestFixture(BinaryOperators.lessThan)]
+    [TestFixture(BinaryOperators.greaterThanEqualTo)]
+    [TestFixture(BinaryOperators.lessThanEqualTo)]
     public class BinaryOperatorTests
     {
         public BinaryOperatorTests(BinaryOperators opt)
         {
+            // for conditionals
+            func = (x, y) => x.CompareTo(y);
             switch (opt)
             {
                 case BinaryOperators.add:
@@ -46,6 +64,30 @@ namespace StringMath.Tests.StringEquationTests
                 case BinaryOperators.pow:
                     func = (x, y) => Math.Pow(x, y);
                     optStr = "^";
+                    break;
+                case BinaryOperators.equals:                    
+                    optStr = "==";
+                    break;
+                case BinaryOperators.notEqual:
+                    optStr = "!=";
+                    break;
+                case BinaryOperators.and:
+                    optStr = "&&";
+                    break;
+                case BinaryOperators.or:
+                    optStr = "||";
+                    break;
+                case BinaryOperators.greaterThan:
+                    optStr = ">";
+                    break;
+                case BinaryOperators.lessThan:
+                    optStr = "<";
+                    break;
+                case BinaryOperators.greaterThanEqualTo:
+                    optStr = ">=";
+                    break;
+                case BinaryOperators.lessThanEqualTo:
+                    optStr = "<=";
                     break;
                 default:
                     throw new ArithmeticException(opt.ToString());
