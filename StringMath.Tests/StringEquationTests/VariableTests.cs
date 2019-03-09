@@ -1,0 +1,21 @@
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StringMath.Tests.StringEquationTests
+{
+    [TestFixture]
+    public class VariableTests
+    {
+        [Test]
+        [TestCase("$0 + $1", 60, 10, 50)]
+        public void Variable(string equStr, double exp, params double[] nums)
+        {
+            IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
+            Assert.AreEqual(exp, eq.Evalute(), 1e-3);
+        }
+    }
+}
