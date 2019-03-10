@@ -42,11 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EquationMember\BinaryOperator.cs" />
+    <Compile Include="EquationMember\Bracket.cs" />
     <Compile Include="EquationMember\EquationMemberFactory.cs" />
     <Compile Include="EquationMember\FactoryResult.cs" />
+    <Compile Include="EquationMember\Function.cs" />
     <Compile Include="EquationMember\IEquationMember.cs" />
-    <Compile Include="EquationMember\IOperator.cs" />
+    <Compile Include="EquationMember\IOperatorMember.cs" />
     <Compile Include="EquationMember\Number.cs" />
+    <Compile Include="EquationMember\IPrecedenceMember.cs" />
     <Compile Include="EquationMember\UnaryOperator.cs" />
     <Compile Include="EquationMember\Variable.cs" />
     <Compile Include="IStringEquation.cs" />

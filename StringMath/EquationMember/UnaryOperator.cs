@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StringMath.EquationMember
 {
-    internal class UnaryOperator : IOperator
+    internal class UnaryOperator : IOperatorMember
     {
         private UnaryOperator(string regularExpression, Func<double, double> evaluator)
         {

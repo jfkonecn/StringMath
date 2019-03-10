@@ -32,7 +32,7 @@ namespace StringMath.EquationMember
             }
 
 
-            if (HelperFunctions.TryGetOperator(ref stringEquation, previousMember, out IOperator opt))
+            if (HelperFunctions.TryGetOperator(ref stringEquation, previousMember, out IOperatorMember opt))
             {
                 while (
                     operatorStack.Count > 0 &&
@@ -86,7 +86,7 @@ namespace StringMath.EquationMember
 
         private FactoryResult TryToExtractANumber(string equationString, IEquationMember previousMember)
         {
-            if (previousMember == null || !(previousMember is IOperator))
+            if (previousMember == null || !(previousMember is IOperatorMember))
             {
                 return null;
             }
@@ -128,13 +128,14 @@ namespace StringMath.EquationMember
         {
             if (BinaryOperatorHasValidPreviousOperator(previousMember))
             {
-                foreach (IOperator obj in BinaryOperator.AllOperators)
+                foreach (IOperatorMember obj in BinaryOperator.AllOperators)
                 {
 
                     FactoryResult result = RegularExpressionParser(
                             obj.RegularExpression,
                             equationString,
                             (x) => obj);
+                    if (result != null) return result;
                 }
             }
             return null;
@@ -149,27 +150,25 @@ namespace StringMath.EquationMember
         private bool BinaryOperatorHasValidPreviousOperator(IEquationMember previousMember)
         {
             return previousMember != null &&
-                (!(previousMember is IOperator) ||
+                (!(previousMember is IOperatorMember) ||
                 previousMember.Equals(Bracket.RightBracket));
         }
 
 
-        private bool TryGetUnaryOperator(ref string equationString,
-    IEquationMember previousMember, out IOperator opt)
+        private FactoryResult TryGetUnaryOperator(string equationString, IEquationMember previousMember)
         {
-            if (ValidPreviousOperator(previousToken))
+            if (UnaryOperatorHasValidPreviousOperator(previousMember))
             {
-                foreach (UnaryOperator obj in AllOperators)
+                foreach (IOperatorMember obj in UnaryOperator.AllOperators)
                 {
-                    if (HelperFunctions.RegularExpressionParser(obj.RegularExpression, ref equationString))
-                    {
-                        opt = obj;
-                        return true;
-                    }
+                    FactoryResult result = RegularExpressionParser(
+                            obj.RegularExpression,
+                            equationString,
+                            (x) => obj);
+                    if (result != null) return result;
                 }
             }
-            opt = null;
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -180,6 +179,47 @@ namespace StringMath.EquationMember
         private bool UnaryOperatorHasValidPreviousOperator(IEquationMember previousMember)
         {
             return !BinaryOperatorHasValidPreviousOperator(previousMember);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="equationString"></param>
+        /// <param name="previousOperator"></param>
+        /// <param name="opt">null if BinaryOperator cannot be made</param>
+        /// <returns>True if object can be created</returns>
+        private FactoryResult TryGetBracket(string equationString)
+        {
+            FactoryResult result = RegularExpressionParser(
+                Bracket.LeftBracket.RegularExpression,
+                equationString,
+                (x) => Bracket.LeftBracket);
+            if (result != null)
+            {
+                return result;
+            }
+
+            return RegularExpressionParser(
+                Bracket.RightBracket.RegularExpression,
+                equationString,
+                (x) => Bracket.RightBracket);
+        }
+
+
+        private FactoryResult TryGetFunction(string equationString, IEquationMember previousMember)
+        {
+            if (previousMember != null && previousMember is IOperatorMember )
+            {
+                return null;
+            }
+
+            FactoryResult result = RegularExpressionParser(
+                    @"^\s*[\w_]+[\w\d]*\(",
+                    equationString,
+                    (x) => new Function(x));
+
+            return result;
         }
 
         /// <summary>

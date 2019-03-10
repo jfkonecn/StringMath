@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StringMath.EquationMember
 {
-    internal class BinaryOperator : IOperator
+    internal class BinaryOperator : IOperatorMember
     {
         private BinaryOperator(string regularExpression, ushort precedence,
     OperatorAssociativity associativity, Func<double, double, double> evaluator)

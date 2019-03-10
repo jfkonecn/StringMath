@@ -2,13 +2,10 @@
 
 namespace StringMath.EquationMember
 {
-    internal interface IOperator : IEquationMember
+    internal interface IOperatorMember : IPrecedenceMember
     {
-        ushort Precedence { get; }
-
         ushort TotalParameters { get; }
         OperatorAssociativity Associativity { get; }
-        string RegularExpression { get; }
         /// <summary>
         /// Assume top of the stack is the right most value is at the top of the stack
         /// </summary>

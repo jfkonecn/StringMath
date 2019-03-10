@@ -41,7 +41,7 @@ namespace StringMath
              */
 
 
-            Stack<IOperator> operatorStack = new Stack<IOperator>();
+            Stack<IOperatorMember> operatorStack = new Stack<IOperatorMember>();
             Queue<IEquationMember> outputQueue = new Queue<IEquationMember>();
             IEquationMember previousToken = null;
             EquationMemberFactory factory = EquationMemberFactory.Factory;
