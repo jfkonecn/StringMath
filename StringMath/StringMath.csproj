@@ -41,6 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EquationMember\BinaryOperator.cs" />
+    <Compile Include="EquationMember\EquationMemberFactory.cs" />
+    <Compile Include="EquationMember\FactoryResult.cs" />
+    <Compile Include="EquationMember\IEquationMember.cs" />
+    <Compile Include="EquationMember\IOperator.cs" />
+    <Compile Include="EquationMember\Number.cs" />
+    <Compile Include="EquationMember\UnaryOperator.cs" />
+    <Compile Include="EquationMember\Variable.cs" />
     <Compile Include="IStringEquation.cs" />
     <Compile Include="IStringEquationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,5 +25,13 @@ namespace StringMath.Tests.StringEquationTests
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"Pow({x},{y})");
             Assert.AreEqual(Math.Pow(x, y), eq.Evalute(), 1e-3);
         }
+
+        [Test]
+        [TestCase(100)]
+        public void PiShouldWork(double x)
+        {
+            IStringEquation eq = StringEquationSetup.BuildStringEquation($"PI / 4 * {x} * {x}");
+            Assert.AreEqual(Math.PI / 4 * x * x, eq.Evalute(), 1e-3);
+        }
     }
 }
