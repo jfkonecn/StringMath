@@ -116,7 +116,7 @@ namespace StringMath.Tests.StringEquationTests
             }
             else
             {
-                Assert.AreEqual(eq.Evaluate(x, y), func(x, y), 0.001);
+                Assert.That(eq.Evaluate(x, y), Is.EqualTo(func(x, y)).Within(0.1).Percent);
             }
         }
 

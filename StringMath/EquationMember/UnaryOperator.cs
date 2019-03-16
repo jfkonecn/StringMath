@@ -37,9 +37,9 @@ namespace StringMath.EquationMember
         public static readonly List<UnaryOperator> AllOperators =
         new List<UnaryOperator>()
         {
-            new UnaryOperator(@"^\s*\+\b",
+            new UnaryOperator(@"^\s*\+(?=\D)",
                 (double num)=>{ return num; }),
-            new UnaryOperator(@"^\s*[-−]\b",
+            new UnaryOperator(@"^\s*[-−](?=\D)",
                 (double num)=>{ return -num; })
         };
 

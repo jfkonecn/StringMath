@@ -17,6 +17,6 @@ namespace StringMath.EquationMember
 
         string IEquationMember.RegularExpression => Number.RegularExpression;
 
-        public static string RegularExpression => @"^\s*\d+(\.\d+)?([eE][-+]?\d+)?";
+        public static string RegularExpression => @"^\s*[-−]?\d+(\.\d+)?([eE][-+]?\d+)?";
     }
 }

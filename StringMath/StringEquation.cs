@@ -40,6 +40,7 @@ namespace StringMath
             }
             if (numStack.Count != 1)
                 throw new ArgumentException();
+            ReversePolishNotationQueue = newQueue;
             return numStack.Peek();
         }
 

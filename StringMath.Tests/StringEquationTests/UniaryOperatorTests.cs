@@ -14,16 +14,16 @@ namespace StringMath.Tests.StringEquationTests
         [TestCase(1)]
         public void UniaryPlusShouldWork(double x)
         {
-            IStringEquation eq = StringEquationSetup.BuildStringEquation($"+{x}");
-            Assert.AreEqual(eq.Evaluate(x), x);
+            IStringEquation eq = StringEquationSetup.BuildStringEquation($"+({x} + {x})");
+            Assert.AreEqual(eq.Evaluate(x), x + x);
         }
 
         [Test]
         [TestCase(1)]
         public void UniaryMinusShouldWork(double x)
         {
-            IStringEquation eq = StringEquationSetup.BuildStringEquation($"-{x}");
-            Assert.AreEqual(eq.Evaluate(x), -x);
+            IStringEquation eq = StringEquationSetup.BuildStringEquation($"-({x} + {x})");
+            Assert.AreEqual(eq.Evaluate(x), -(x + x));
         }
     }
 }
