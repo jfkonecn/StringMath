@@ -18,7 +18,7 @@ namespace StringMath.Tests.StringEquationTests
         public void OrderOfOperations(string strEq, double exp)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(strEq);
-            Assert.AreEqual(3, eq.Evalute(), 1e-3);
+            Assert.AreEqual(3, eq.Evaluate(), 1e-3);
         }
     }
 }

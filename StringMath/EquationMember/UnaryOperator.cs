@@ -26,17 +26,12 @@ namespace StringMath.EquationMember
             return Evaluator(num);
         }
 
-        public double Evaluate(ref Stack<double> vs)
+        public double Evaluate(Stack<double> vs)
         {
             if (TotalParameters > vs.Count)
                 throw new ArgumentException();
             double num = vs.Pop();
             return Evaluator(num);
-        }
-
-        public double Evaluate(Stack<double> vs)
-        {
-            throw new NotImplementedException();
         }
 
         public static readonly List<UnaryOperator> AllOperators =

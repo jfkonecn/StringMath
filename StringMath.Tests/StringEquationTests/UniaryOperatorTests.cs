@@ -15,7 +15,7 @@ namespace StringMath.Tests.StringEquationTests
         public void UniaryPlusShouldWork(double x)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"+{x}");
-            Assert.AreEqual(eq.Evalute(x), x);
+            Assert.AreEqual(eq.Evaluate(x), x);
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace StringMath.Tests.StringEquationTests
         public void UniaryMinusShouldWork(double x)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"-{x}");
-            Assert.AreEqual(eq.Evalute(x), -x);
+            Assert.AreEqual(eq.Evaluate(x), -x);
         }
     }
 }

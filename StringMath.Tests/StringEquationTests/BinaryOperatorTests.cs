@@ -106,7 +106,7 @@ namespace StringMath.Tests.StringEquationTests
         public void BinaryShouldWorkWithWhiteSpace(string strEq, double x, double y)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(string.Format(strEq, x, optStr, y));
-            Assert.AreEqual(eq.Evalute(x, y), func(x, y));
+            Assert.AreEqual(eq.Evaluate(x, y), func(x, y));
         }
 
         [Test]
@@ -116,11 +116,11 @@ namespace StringMath.Tests.StringEquationTests
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"{x}{optStr}{y}");
             if (y == 0 && optStr == "/")
             {
-                Assert.Throws<DivideByZeroException>(() => eq.Evalute(x, y));
+                Assert.Throws<DivideByZeroException>(() => eq.Evaluate(x, y));
             }
             else
             {
-                Assert.AreEqual(eq.Evalute(x, y), func(x, y));
+                Assert.AreEqual(eq.Evaluate(x, y), func(x, y));
             }
         }
 

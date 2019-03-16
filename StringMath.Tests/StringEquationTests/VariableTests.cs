@@ -15,7 +15,7 @@ namespace StringMath.Tests.StringEquationTests
         public void Variable(string equStr, double exp, params double[] nums)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
-            Assert.AreEqual(exp, eq.Evalute(), 1e-3);
+            Assert.AreEqual(exp, eq.Evaluate(), 1e-3);
         }
     }
 }

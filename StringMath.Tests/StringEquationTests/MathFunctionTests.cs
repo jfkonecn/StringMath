@@ -15,7 +15,7 @@ namespace StringMath.Tests.StringEquationTests
         public void SqrtShouldWork(double x)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"Sqrt({x})");
-            Assert.AreEqual(Math.Sqrt(x), eq.Evalute(), 1e-3);
+            Assert.AreEqual(Math.Sqrt(x), eq.Evaluate(), 1e-3);
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace StringMath.Tests.StringEquationTests
         public void PowShouldWork(double x, double y)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"Pow({x},{y})");
-            Assert.AreEqual(Math.Pow(x, y), eq.Evalute(), 1e-3);
+            Assert.AreEqual(Math.Pow(x, y), eq.Evaluate(), 1e-3);
         }
 
         [Test]
@@ -31,7 +31,15 @@ namespace StringMath.Tests.StringEquationTests
         public void PiShouldWork(double x)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation($"PI / 4 * {x} * {x}");
-            Assert.AreEqual(Math.PI / 4 * x * x, eq.Evalute(), 1e-3);
+            Assert.AreEqual(Math.PI / 4 * x * x, eq.Evaluate(), 1e-3);
+        }
+
+        [Test]
+        [TestCase(2)]
+        public void FunctionWithinFunctionShouldWork(double x)
+        {
+            IStringEquation eq = StringEquationSetup.BuildStringEquation($"Pow(Pow({x},{x}),{x})");
+            Assert.AreEqual(Math.Pow(Math.Pow(x, x), x), eq.Evaluate(), 1e-3);
         }
     }
 }

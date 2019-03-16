@@ -13,6 +13,6 @@ namespace StringMath
         /// </summary>
         /// <param name="args">arguments required to evaluate the equation</param>
         /// <returns></returns>
-        double Evalute(params double[] args);
+        double Evaluate(params double[] args);
     }
 }
