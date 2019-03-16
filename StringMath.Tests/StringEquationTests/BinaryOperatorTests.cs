@@ -16,8 +16,6 @@ namespace StringMath.Tests.StringEquationTests
         pow,
         equals,
         notEqual,
-        and,        
-        or,
         greaterThan,
         lessThan,
         greaterThanEqualTo,
@@ -31,8 +29,6 @@ namespace StringMath.Tests.StringEquationTests
     [TestFixture(BinaryOperators.pow)]
     [TestFixture(BinaryOperators.equals)]
     [TestFixture(BinaryOperators.notEqual)]
-    [TestFixture(BinaryOperators.and)]
-    [TestFixture(BinaryOperators.or)]
     [TestFixture(BinaryOperators.greaterThan)]
     [TestFixture(BinaryOperators.lessThan)]
     [TestFixture(BinaryOperators.greaterThanEqualTo)]
@@ -54,8 +50,8 @@ namespace StringMath.Tests.StringEquationTests
                     optStr = "-";
                     break;
                 case BinaryOperators.multiply:
-                    func = (x, y) => x / y;
-                    optStr = "-";
+                    func = (x, y) => x * y;
+                    optStr = "*";
                     break;
                 case BinaryOperators.divide:
                     func = (x, y) => x / y;
@@ -65,28 +61,28 @@ namespace StringMath.Tests.StringEquationTests
                     func = (x, y) => Math.Pow(x, y);
                     optStr = "^";
                     break;
-                case BinaryOperators.equals:                    
+                case BinaryOperators.equals:
+                    func = (x, y) => Convert.ToDouble(x == y);
                     optStr = "==";
                     break;
                 case BinaryOperators.notEqual:
+                    func = (x, y) => Convert.ToDouble(x != y);
                     optStr = "!=";
                     break;
-                case BinaryOperators.and:
-                    optStr = "&&";
-                    break;
-                case BinaryOperators.or:
-                    optStr = "||";
-                    break;
                 case BinaryOperators.greaterThan:
+                    func = (x, y) => Convert.ToDouble(x > y);
                     optStr = ">";
                     break;
                 case BinaryOperators.lessThan:
+                    func = (x, y) => Convert.ToDouble(x < y);
                     optStr = "<";
                     break;
                 case BinaryOperators.greaterThanEqualTo:
+                    func = (x, y) => Convert.ToDouble(x >= y);
                     optStr = ">=";
                     break;
                 case BinaryOperators.lessThanEqualTo:
+                    func = (x, y) => Convert.ToDouble(x <= y);
                     optStr = "<=";
                     break;
                 default:
@@ -106,7 +102,7 @@ namespace StringMath.Tests.StringEquationTests
         public void BinaryShouldWorkWithWhiteSpace(string strEq, double x, double y)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(string.Format(strEq, x, optStr, y));
-            Assert.AreEqual(eq.Evaluate(x, y), func(x, y));
+            Assert.AreEqual(func(x, y), eq.Evaluate(x, y), 0.001);
         }
 
         [Test]
@@ -120,7 +116,7 @@ namespace StringMath.Tests.StringEquationTests
             }
             else
             {
-                Assert.AreEqual(eq.Evaluate(x, y), func(x, y));
+                Assert.AreEqual(eq.Evaluate(x, y), func(x, y), 0.001);
             }
         }
 

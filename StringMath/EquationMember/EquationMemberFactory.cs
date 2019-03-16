@@ -42,10 +42,6 @@ namespace StringMath.EquationMember
 
         private FactoryResult TryToExtractANumber(string equationString, IEquationMember previousMember)
         {
-            if (previousMember == null || !(previousMember is IOperatorMember))
-            {
-                return null;
-            }
 
             FactoryResult result = RegularExpressionParser(
                 Number.RegularExpression, 
@@ -165,15 +161,10 @@ namespace StringMath.EquationMember
 
         private FactoryResult TryGetFunction(string equationString, IEquationMember previousMember)
         {
-            if (previousMember != null && previousMember is IOperatorMember )
-            {
-                return null;
-            }
-
             FactoryResult result = RegularExpressionParser(
                     Function.RegularExpression,
                     equationString,
-                    (x) => new Function(x));
+                    (x) => new Function(x.TrimEnd('(')));
 
             return result;
         }

@@ -55,7 +55,19 @@ namespace StringMath.EquationMember
                 new BinaryOperator(@"^\s*\+", 2, OperatorAssociativity.LeftAssociative,
                     (double left, double right)=>{ return left + right; }),
                 new BinaryOperator(@"^\s*[-−]", 2, OperatorAssociativity.LeftAssociative,
-                    (double left, double right)=>{ return left - right; })
+                    (double left, double right)=>{ return left - right; }),
+                new BinaryOperator(@"^\s*==", 2, OperatorAssociativity.LeftAssociative,
+                    (double left, double right)=>{ return Convert.ToDouble(left == right); }),
+                new BinaryOperator(@"^\s*!=", 2, OperatorAssociativity.LeftAssociative,
+                    (double left, double right)=>{ return Convert.ToDouble(left != right); }),
+                new BinaryOperator(@"^\s*>(?!=)", 2, OperatorAssociativity.LeftAssociative,
+                    (double left, double right)=>{ return Convert.ToDouble(left > right); }),
+                new BinaryOperator(@"^\s*<(?!=)", 2, OperatorAssociativity.LeftAssociative,
+                    (double left, double right)=>{ return Convert.ToDouble(left < right); }),
+                new BinaryOperator(@"^\s*>=", 2, OperatorAssociativity.LeftAssociative,
+                    (double left, double right)=>{ return Convert.ToDouble(left >= right); }),
+                new BinaryOperator(@"^\s*<=", 2, OperatorAssociativity.LeftAssociative,
+                    (double left, double right)=>{ return Convert.ToDouble(left <= right); }),
             };
     }
 }

@@ -69,24 +69,32 @@ namespace StringMath
             Queue<IEquationMember> outputQueue = new Queue<IEquationMember>();
             IEquationMember previousToken = null;
             EquationMemberFactory factory = EquationMemberFactory.Factory;
+            int totalNumbers = 0;
+            int totalBinaryOpts = 0;
             while (equationString.Length > 0)
             {
                 int startingLength = equationString.Length;
 
                 FactoryResult result = factory.CreateEquationMember(equationString, previousToken);
-                previousToken = result.Member;
-                equationString = result.RemainingString;
-
+                previousToken = result?.Member;
+                equationString = result?.RemainingString;
+                if (previousToken is Number) totalNumbers++;
+                if (previousToken is BinaryOperator) totalBinaryOpts++;
                 previousToken = HandleToken(precedenceStack, functionStack, outputQueue, previousToken);
 
                 // if we didn't do anything in a loop, then there are unsupported strings
-                if (startingLength == equationString.Length)
+                if (equationString == null || startingLength == equationString.Length)
                     throw new ArgumentException();
+            }
+
+            if(totalNumbers != totalBinaryOpts + 1)
+            {
+                throw new ArgumentException("Binary Operators must have at 2 numbers to interact with");
             }
 
             while (precedenceStack.Count > 0)
             {
-                if (precedenceStack.Peek() as Bracket != null)
+                if (precedenceStack.Peek() is Bracket)
                     throw new ArgumentException();
                 outputQueue.Enqueue(precedenceStack.Pop());
             }
