@@ -17,7 +17,7 @@ namespace StringMath.EquationMember
         /// <summary>
         /// i.e. "-" (without quotes) if this is a negative operator
         /// </summary>
-        internal readonly string RegularExpression;
+        public string RegularExpression { get; }
 
         private readonly Func<double, double> Evaluator;
 
@@ -34,6 +34,11 @@ namespace StringMath.EquationMember
             return Evaluator(num);
         }
 
+        public double Evaluate(Stack<double> vs)
+        {
+            throw new NotImplementedException();
+        }
+
         public static readonly List<UnaryOperator> AllOperators =
         new List<UnaryOperator>()
         {
@@ -48,9 +53,5 @@ namespace StringMath.EquationMember
         public OperatorAssociativity Associativity { get { return OperatorAssociativity.RightAssociative; } }
 
         public ushort TotalParameters { get { return 1; } }
-
-
-
-
     }
 }

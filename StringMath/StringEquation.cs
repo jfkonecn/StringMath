@@ -28,10 +28,10 @@ namespace StringMath
         /// <summary>
         /// Using Shunting yard algorithm
         /// </summary>
-        /// <param name="stringEquation"></param>
+        /// <param name="equationString"></param>
         /// <param name="varFinder"></param>
         /// <returns></returns>
-        private Queue<IEquationMember> CreateReversePolishNotationQueue(string stringEquation, params string[] parameterNames)
+        private Queue<IEquationMember> CreateReversePolishNotationQueue(string equationString, params string[] parameterNames)
         {
             /*
              https://en.wikipedia.org/wiki/Shunting-yard_algorithm
@@ -45,21 +45,22 @@ namespace StringMath
             Queue<IEquationMember> outputQueue = new Queue<IEquationMember>();
             IEquationMember previousToken = null;
             EquationMemberFactory factory = EquationMemberFactory.Factory;
-            while (stringEquation.Length > 0)
+            while (equationString.Length > 0)
             {
-                int startingLength = stringEquation.Length;
+                int startingLength = equationString.Length;
 
-                factory.CreateEquationMember();
-
+                FactoryResult result = factory.CreateEquationMember(equationString, previousToken);
+                previousToken = result.Member;
+                equationString = result.RemainingString;
                 // if we didn't do anything in a loop, then there are unsupported strings
-                if (startingLength == stringEquation.Length)
-                    throw new SyntaxException();
+                if (startingLength == equationString.Length)
+                    throw new ArgumentException();
             }
 
             while (operatorStack.Count > 0)
             {
                 if (operatorStack.Peek() as Bracket != null)
-                    throw new SyntaxException();
+                    throw new ArgumentException();
                 outputQueue.Enqueue(operatorStack.Pop());
             }
             return outputQueue;
@@ -67,4 +68,4 @@ namespace StringMath
 
     }
 }
-}
+
