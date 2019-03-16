@@ -16,72 +16,28 @@ namespace StringMath.EquationMember
 
         }
 
-        public FactoryResult CreateEquationMember(string stringEquation, IEquationMember previousMember)
+        internal FactoryResult CreateEquationMember(string equationString, IEquationMember previousMember)
         {
-            if (Number.TryGetNumber(ref stringEquation, previousMember, varFinder, out Number num))
-            {
-                outputQueue.Enqueue(num);
-                previousMember = num;
-            }
 
-            if (Function.TryGetFunction(ref stringEquation, previousMember, out Function temp))
-            {
-                curFun = temp;
-                previousMember = temp;
-                operatorStack.Push(curFun);
-            }
-
-
-            if (HelperFunctions.TryGetOperator(ref stringEquation, previousMember, out IOperatorMember opt))
-            {
-                while (
-                    operatorStack.Count > 0 &&
-                    (operatorStack.Peek() is Function ||
-                    operatorStack.Peek().Precedence > opt.Precedence ||
-                    (operatorStack.Peek().Precedence == opt.Precedence && opt.Associativity == OperatorAssociativity.LeftAssociative))
-                    && !operatorStack.Peek().Equals(Bracket.LeftBracket))
+            List<Func<string, IEquationMember, FactoryResult>> parsers =
+                new List<Func<string, IEquationMember, FactoryResult>>
                 {
-                    outputQueue.Enqueue(operatorStack.Pop());
-                }
-                previousMember = opt;
-                operatorStack.Push(opt);
-            }
+                    TryToExtractANumber,
+                    TryToExtractVariable,
+                    TryGetFunction,
+                    TryGetBinaryOperator,
+                    TryGetUnaryOperator,
+                    (s, mem) => TryGetBracket(s),
+                    (s, mem) => TryGetFunctionArgumentSeparator(s)
+                };
 
-            if (Bracket.TryGetBracket(ref stringEquation, out Bracket bracket))
+            FactoryResult result = null;
+            foreach (var fun in parsers)
             {
-                if (bracket.Equals(Bracket.LeftBracket))
-                {
-                    operatorStack.Push(bracket);
-                }
-                else if (bracket.Equals(Bracket.RightBracket))
-                {
-                    if (operatorStack.Count == 0)
-                        throw new SyntaxException();
-                    while (!operatorStack.Peek().Equals(Bracket.LeftBracket))
-                    {
-                        // Unbalanced  parentheses
-                        if (operatorStack.Count < 1)
-                            throw new SyntaxException();
-                        outputQueue.Enqueue(operatorStack.Pop());
-                    }
-                    operatorStack.Pop();
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-                previousMember = bracket;
+                result = fun(equationString, previousMember);
+                if (result != null) break;
             }
-
-            if (Function.IsFunctionArgumentSeparator(ref stringEquation))
-            {
-                if (curFun == null)
-                    throw new SyntaxException();
-                curFun.TotalParameters++;
-                previousMember = null;
-            }
-
-            HelperFunctions.RegularExpressionParser(@"^\s+$", ref stringEquation);
+            return result;
         }
 
         private FactoryResult TryToExtractANumber(string equationString, IEquationMember previousMember)
@@ -92,7 +48,7 @@ namespace StringMath.EquationMember
             }
 
             FactoryResult result = RegularExpressionParser(
-                @"^\s*\d+(\.\d+)?([eE][-+]?\d+)?", 
+                Number.RegularExpression, 
                 equationString, 
                 (x) => new Number(double.Parse(x)));
             if (result != null)
@@ -110,7 +66,7 @@ namespace StringMath.EquationMember
         private FactoryResult TryToExtractVariable(string equationString, IEquationMember previousMember)
         {
             return RegularExpressionParser(
-                @"^\s*\$[\w_]+[\w\d]*",
+                Variable.RegularExpression,
                 equationString,
                 (x) => new Variable(x));
         }
@@ -215,11 +171,19 @@ namespace StringMath.EquationMember
             }
 
             FactoryResult result = RegularExpressionParser(
-                    @"^\s*[\w_]+[\w\d]*\(",
+                    Function.RegularExpression,
                     equationString,
                     (x) => new Function(x));
 
             return result;
+        }
+
+        private FactoryResult TryGetFunctionArgumentSeparator(string equationString)
+        {
+            return RegularExpressionParser(
+                FunctionArgumentSeparator.RegularExpression,
+                equationString,
+                (x) => new FunctionArgumentSeparator());
         }
 
         /// <summary>

@@ -27,6 +27,10 @@ namespace StringMath.EquationMember
 
         public OperatorAssociativity Associativity { get { return OperatorAssociativity.LeftAssociative; } }
 
+        string IEquationMember.RegularExpression => Function.RegularExpression;
+
+        public static string RegularExpression => @"^\s*[\w_]+[\w\d]*\(";
+
         public double Evaluate(Stack<double> vs)
         {
             if (TotalParameters > vs.Count)

@@ -8,7 +8,6 @@ namespace StringMath.EquationMember
 {
     internal interface IPrecedenceMember : IEquationMember
     {
-        ushort Precedence { get; }
-        string RegularExpression { get; }
+        ushort Precedence { get; }        
     }
 }

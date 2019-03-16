@@ -2,5 +2,6 @@
 {
     internal interface IEquationMember
     {
+        string RegularExpression { get; }
     }
 }

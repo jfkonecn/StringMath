@@ -14,5 +14,9 @@ namespace StringMath.EquationMember
         }
 
         public double Value { get; }
+
+        string IEquationMember.RegularExpression => Number.RegularExpression;
+
+        public static string RegularExpression => @"^\s*\d+(\.\d+)?([eE][-+]?\d+)?";
     }
 }

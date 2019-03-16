@@ -16,5 +16,9 @@ namespace StringMath.EquationMember
         /// The lookup index of the variable
         /// </summary>
         internal string Name { get; }
+
+        string IEquationMember.RegularExpression => Variable.RegularExpression;
+
+        public static string RegularExpression => @"^\s*\$[\w_]+[\w\d]*";
     }
 }

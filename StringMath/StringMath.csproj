@@ -46,6 +46,7 @@
     <Compile Include="EquationMember\EquationMemberFactory.cs" />
     <Compile Include="EquationMember\FactoryResult.cs" />
     <Compile Include="EquationMember\Function.cs" />
+    <Compile Include="EquationMember\FunctionArgumentSeparator.cs" />
     <Compile Include="EquationMember\IEquationMember.cs" />
     <Compile Include="EquationMember\IOperatorMember.cs" />
     <Compile Include="EquationMember\Number.cs" />
