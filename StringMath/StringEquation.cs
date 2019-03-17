@@ -65,14 +65,15 @@ namespace StringMath
         /// <returns></returns>
         private Queue<IEquationMember> CreateReversePolishNotationQueue(string equationString, params string[] parameterNames)
         {
+            if (string.IsNullOrEmpty(equationString)) throw new ArgumentNullException(nameof(equationString));
             Stack<IPrecedenceMember> precedenceStack = new Stack<IPrecedenceMember>();
             Stack<Function> functionStack = new Stack<Function>();
             Queue<IEquationMember> outputQueue = new Queue<IEquationMember>();
             IEquationMember previousToken = null;
             EquationMemberFactory factory = EquationMemberFactory.Factory;
             int totalNumbers = 0;
-            int totalBinaryOpts = 0;
-            while (equationString.Length > 0)
+            int totalBinaryOpts = 0;            
+            while (equationString.Length > 0 && !string.IsNullOrWhiteSpace(equationString))
             {
                 int startingLength = equationString.Length;
 
