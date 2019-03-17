@@ -8,17 +8,19 @@ namespace StringMath.EquationMember
 {
     internal class Variable : IEquationMember
     {
-        internal Variable(string name)
+        internal Variable(int index)
         {
-            Name = name;
+            Index = index;
         }
         /// <summary>
         /// The lookup index of the variable
         /// </summary>
-        internal string Name { get; }
+        internal int Index { get; }
 
         string IEquationMember.RegularExpression => Variable.RegularExpression;
-
-        public static string RegularExpression => @"^\s*\$[\w_]+[\w\d]*";
+        public static string RegularExpression => $"{ReplaceRegularExpression}{@"[\w_]+[\w\d]*"}";
+        public static string ReplaceRegularExpression => @"^\s*\$";
+        //public static string RegularExpression => @"(?<=^\s*\$)[\w_]+[\w\d]*";
+        //public static string RegularExpression => @"^\s*\$[\w_]+[\w\d]*";
     }
 }

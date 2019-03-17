@@ -33,6 +33,12 @@ namespace StringMath
                 {
                     numStack.Push(num.Value);
                 }
+                else if (curMember is Variable variable)
+                {
+                    if (args == null || variable.Index > args.Length - 1)
+                        throw new ArgumentException($"This equation requires at least {variable.Index + 1} arguments");
+                    numStack.Push(args[variable.Index]);
+                }
                 else
                 {
                     throw new NotImplementedException();
@@ -80,7 +86,7 @@ namespace StringMath
                 FactoryResult result = factory.CreateEquationMember(equationString, previousToken);
                 previousToken = result?.Member;
                 equationString = result?.RemainingString;
-                if (previousToken is Number) totalNumbers++;
+                if (previousToken is Number || previousToken is Variable) totalNumbers++;
                 if (previousToken is BinaryOperator) totalBinaryOpts++;
                 previousToken = HandleToken(precedenceStack, functionStack, outputQueue, previousToken);
 
@@ -110,6 +116,10 @@ namespace StringMath
             if (previousToken is Number num)
             {
                 outputQueue.Enqueue(num);
+            }
+            else if(previousToken is Variable mVar)
+            {
+                outputQueue.Enqueue(mVar);
             }
             else if (previousToken is Function fun)
             {

@@ -16,7 +16,10 @@ namespace StringMath.EquationMember
 
         }
 
-        internal FactoryResult CreateEquationMember(string equationString, IEquationMember previousMember)
+        internal FactoryResult CreateEquationMember(
+            string equationString, 
+            IEquationMember previousMember, 
+            params string[] parameterNames)
         {
 
             List<Func<string, IEquationMember, FactoryResult>> parsers =
@@ -25,7 +28,7 @@ namespace StringMath.EquationMember
                     TryGetBinaryOperator,
                     TryGetUnaryOperator,
                     TryToExtractANumber,
-                    TryToExtractVariable,
+                    (s, mem) => TryToExtractVariable(s, mem, parameterNames),
                     TryGetFunction,
                     (s, mem) => TryGetBracket(s),
                     (s, mem) => TryGetFunctionArgumentSeparator(s)
@@ -59,12 +62,28 @@ namespace StringMath.EquationMember
         }
 
 
-        private FactoryResult TryToExtractVariable(string equationString, IEquationMember previousMember)
+        private FactoryResult TryToExtractVariable(string equationString, 
+            IEquationMember previousMember, params string[] parameterNames)
         {
             return RegularExpressionParser(
                 Variable.RegularExpression,
+                Variable.ReplaceRegularExpression,
                 equationString,
-                (x) => new Variable(x));
+                (x) => 
+                {
+                    if(int.TryParse(x, out int idx))
+                    {
+                        return new Variable(idx);
+                    }
+                    if (parameterNames == null)
+                        throw new ArgumentException("You must name the order you want to pass variables in!");
+                    for (int i = 0; i < parameterNames.Length; i++)
+                    {
+                        if (parameterNames[i] == x)
+                            return new Variable(i);
+                    }
+                    throw new ArgumentException($"Could not find {x} in the passed parameterNames!");
+                });
         }
 
 
@@ -200,6 +219,24 @@ namespace StringMath.EquationMember
                 Member = memberFactory(matchString),
                 RemainingString = reg.Replace(equationString, string.Empty)
             };
+        }
+
+        /// <summary>
+        /// If there is a match with the regExpression then a FactoryResult is returned
+        /// </summary>
+        /// <param name="regExpression">The string which represents the member the ie "+" or "sqrt"</param>
+        /// <param name="equationString"></param>
+        /// <param name="memberFactory">Given the matching string returns an IEquationMember</param>
+        /// <returns>FactoryResult or null if no match found</returns>
+        private FactoryResult RegularExpressionParser(string regExpression, string replaceExpression, string equationString,
+            Func<string, IEquationMember> memberFactory)
+        {
+            FactoryResult result = RegularExpressionParser(regExpression, equationString, (x) => 
+            {
+                x = Regex.Replace(x, replaceExpression, "");
+                return memberFactory(x);
+            });
+            return result;
         }
     }
 }
