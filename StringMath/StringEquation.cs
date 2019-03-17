@@ -88,7 +88,7 @@ namespace StringMath
                     throw new ArgumentException();
             }
 
-            if(totalNumbers != totalBinaryOpts + 1)
+            if(totalNumbers != totalBinaryOpts + 1 && totalBinaryOpts > 0)
             {
                 throw new ArgumentException("Binary Operators must have at 2 numbers to interact with");
             }

@@ -22,11 +22,11 @@ namespace StringMath.EquationMember
             List<Func<string, IEquationMember, FactoryResult>> parsers =
                 new List<Func<string, IEquationMember, FactoryResult>>
                 {
+                    TryGetBinaryOperator,
+                    TryGetUnaryOperator,
                     TryToExtractANumber,
                     TryToExtractVariable,
                     TryGetFunction,
-                    TryGetBinaryOperator,
-                    TryGetUnaryOperator,
                     (s, mem) => TryGetBracket(s),
                     (s, mem) => TryGetFunctionArgumentSeparator(s)
                 };
@@ -164,7 +164,7 @@ namespace StringMath.EquationMember
             FactoryResult result = RegularExpressionParser(
                     Function.RegularExpression,
                     equationString,
-                    (x) => new Function(x.TrimEnd('(')));
+                    (x) => new Function(x));
 
             return result;
         }
