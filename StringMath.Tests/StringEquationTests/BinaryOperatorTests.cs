@@ -16,6 +16,8 @@ namespace StringMath.Tests.StringEquationTests
         pow,
         equals,
         notEqual,
+        and,
+        or,
         greaterThan,
         lessThan,
         greaterThanEqualTo,
@@ -60,6 +62,14 @@ namespace StringMath.Tests.StringEquationTests
                 case BinaryOperators.pow:
                     func = (x, y) => Math.Pow(x, y);
                     optStr = "^";
+                    break;
+                case BinaryOperators.and:
+                    func = (x, y) => Convert.ToDouble(Convert.ToBoolean(x) && Convert.ToBoolean(y));
+                    optStr = "&&";
+                    break;
+                case BinaryOperators.or:
+                    func = (x, y) => Convert.ToDouble(Convert.ToBoolean(x) || Convert.ToBoolean(y));
+                    optStr = "||";
                     break;
                 case BinaryOperators.equals:
                     func = (x, y) => Convert.ToDouble(x == y);
