@@ -21,26 +21,25 @@ namespace StringMath.EquationMember
             IEquationMember previousMember, 
             params string[] parameterNames)
         {
-
-            List<Func<string, IEquationMember, FactoryResult>> parsers =
-                new List<Func<string, IEquationMember, FactoryResult>>
-                {
-                    TryGetBinaryOperator,
-                    TryGetUnaryOperator,
-                    TryToExtractANumber,
-                    (s, mem) => TryToExtractVariable(s, mem, parameterNames),
-                    TryGetFunction,
-                    (s, mem) => TryGetBracket(s),
-                    (s, mem) => TryGetFunctionArgumentSeparator(s)
-                };
-
             FactoryResult result = null;
-            foreach (var fun in parsers)
+            foreach (var fun in GetParsers(parameterNames))
             {
                 result = fun(equationString, previousMember);
                 if (result != null) break;
             }
             return result;
+        }
+
+
+        private IEnumerable<Func<string, IEquationMember, FactoryResult>> GetParsers(params string[] parameterNames)
+        {
+            yield return TryGetBinaryOperator;
+            yield return TryGetUnaryOperator;
+            yield return TryToExtractANumber;
+            yield return (s, mem) => TryToExtractVariable(s, mem, parameterNames);
+            yield return TryGetFunction;
+            yield return (s, mem) => TryGetBracket(s);
+            yield return (s, mem) => TryGetFunctionArgumentSeparator(s);
         }
 
         private FactoryResult TryToExtractANumber(string equationString, IEquationMember previousMember)
