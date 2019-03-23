@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StringMath\StringMath.csproj">
-      <Project>{3c8e0de3-beec-4156-a8b5-a6c7a2b52608}</Project>
+      <Project>{4521d417-9493-49a0-9b4e-fe2fc0ca0452}</Project>
       <Name>StringMath</Name>
     </ProjectReference>
   </ItemGroup>

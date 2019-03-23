@@ -15,6 +15,8 @@ namespace StringMath.Tests.StringEquationTests
         [TestCase("20 * 2 - (1/2) * 9.8 * 2^2", 20.4)]
         [TestCase("4^3^2", 262144)]
         [TestCase("7 + (6 * 5^2 + 3)", 160)]
+        [TestCase("7 > 1 && 8 < 10", 1)]
+        [TestCase("7 > 1 && 8 > 10", 0)]
         public void OrderOfOperations(string strEq, double exp)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(strEq);
