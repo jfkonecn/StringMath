@@ -18,7 +18,7 @@ namespace StringMath.EquationMember
         internal int Index { get; }
 
         string IEquationMember.RegularExpression => Variable.RegularExpression;
-        public static string RegularExpression => $"{ReplaceRegularExpression}{@"[\w_]+[\w\d]*"}";
+        public static string RegularExpression => $"{ReplaceRegularExpression}{@"[\w_]+[\.\w\d]*"}";
         public static string ReplaceRegularExpression => @"^\s*\$";
         //public static string RegularExpression => @"(?<=^\s*\$)[\w_]+[\w\d]*";
         //public static string RegularExpression => @"^\s*\$[\w_]+[\w\d]*";

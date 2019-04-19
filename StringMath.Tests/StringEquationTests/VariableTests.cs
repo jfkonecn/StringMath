@@ -17,5 +17,13 @@ namespace StringMath.Tests.StringEquationTests
             IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
             Assert.That(eq.Evaluate(nums), Is.EqualTo(exp).Within(0.1).Percent);
         }
+
+        [Test]
+        [TestCase("$My.Good - $Inputs.Are.Fun", 40, 10, 50)]
+        public void VarNameTests(string equStr, double exp, params double[] nums)
+        {
+            IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr,  "Inputs.Are.Fun", "My.Good");
+            Assert.That(eq.Evaluate(nums), Is.EqualTo(exp).Within(0.1).Percent);
+        }
     }
 }

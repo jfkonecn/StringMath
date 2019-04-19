@@ -12,9 +12,9 @@ namespace StringMath.Tests.StringEquationTests
     {        
         private static IStringEquationFactory StringEquationFactory { get; set; }
 
-        public static IStringEquation BuildStringEquation(string strEqu)
+        public static IStringEquation BuildStringEquation(string strEqu, params string[] parameterNames)
         {
-            return StringEquationFactory.CreateStringEquation(strEqu);
+            return StringEquationFactory.CreateStringEquation(strEqu, parameterNames);
         }
 
         [OneTimeSetUp]

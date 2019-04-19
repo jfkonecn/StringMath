@@ -9,11 +9,11 @@ namespace StringMath
 {
     internal class StringEquation : IStringEquation
     {
-        public StringEquation(string stringEquation)
+        public StringEquation(string stringEquation, string[] parameterNames)
         {
             if (string.IsNullOrWhiteSpace(stringEquation))
                 throw new ArgumentException(nameof(stringEquation));
-            ReversePolishNotationQueue = CreateReversePolishNotationQueue(stringEquation);
+            ReversePolishNotationQueue = CreateReversePolishNotationQueue(stringEquation, parameterNames);
         }
 
         public double Evaluate(params double[] args)
@@ -69,7 +69,7 @@ namespace StringMath
         /// <param name="equationString"></param>
         /// <param name="varFinder"></param>
         /// <returns></returns>
-        private Queue<IEquationMember> CreateReversePolishNotationQueue(string equationString, params string[] parameterNames)
+        private Queue<IEquationMember> CreateReversePolishNotationQueue(string equationString, string[] parameterNames)
         {
             if (string.IsNullOrEmpty(equationString)) throw new ArgumentNullException(nameof(equationString));
             Stack<IPrecedenceMember> precedenceStack = new Stack<IPrecedenceMember>();
@@ -83,7 +83,7 @@ namespace StringMath
             {
                 int startingLength = equationString.Length;
 
-                FactoryResult result = factory.CreateEquationMember(equationString, previousToken);
+                FactoryResult result = factory.CreateEquationMember(equationString, previousToken, parameterNames);
                 previousToken = result?.Member;
                 equationString = result?.RemainingString;
                 if (previousToken is Number || previousToken is Variable) totalNumbers++;
