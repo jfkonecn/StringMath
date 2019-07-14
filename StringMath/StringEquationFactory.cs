@@ -8,9 +8,9 @@ namespace StringMath
 {
     public class StringEquationFactory : IStringEquationFactory
     {
-        public IStringEquation CreateStringEquation(string stringEquation, params string[] parameterNames)
+        public IStringEquation CreateStringEquation(string stringEquation)
         {
-            return new StringEquation(stringEquation, parameterNames);
+            return new StringEquation(stringEquation);
         }
     }
 }

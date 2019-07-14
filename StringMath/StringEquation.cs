@@ -9,11 +9,14 @@ namespace StringMath
 {
     internal class StringEquation : IStringEquation
     {
-        public StringEquation(string stringEquation, string[] parameterNames)
+        
+
+        public StringEquation(string stringEquation)
         {
             if (string.IsNullOrWhiteSpace(stringEquation))
                 throw new ArgumentException(nameof(stringEquation));
-            ReversePolishNotationQueue = CreateReversePolishNotationQueue(stringEquation, parameterNames);
+            EquationMemberFactory = EquationMemberFactory.Factory;
+            ReversePolishNotationQueue = CreateReversePolishNotationQueue(stringEquation, new List<string>());
         }
 
         public double Evaluate(params double[] args)
@@ -50,9 +53,12 @@ namespace StringMath
             return numStack.Peek();
         }
 
+        public EquationMemberFactory EquationMemberFactory { get; }
 
 
         private Queue<IEquationMember> ReversePolishNotationQueue { get; set; }
+
+        public IReadOnlyList<string> EquationArguments { get; private set; }
 
 
 
@@ -69,21 +75,20 @@ namespace StringMath
         /// <param name="equationString"></param>
         /// <param name="varFinder"></param>
         /// <returns></returns>
-        private Queue<IEquationMember> CreateReversePolishNotationQueue(string equationString, string[] parameterNames)
+        private Queue<IEquationMember> CreateReversePolishNotationQueue(string equationString, IList<string> parameterNames)
         {
             if (string.IsNullOrEmpty(equationString)) throw new ArgumentNullException(nameof(equationString));
             Stack<IPrecedenceMember> precedenceStack = new Stack<IPrecedenceMember>();
             Stack<Function> functionStack = new Stack<Function>();
             Queue<IEquationMember> outputQueue = new Queue<IEquationMember>();
             IEquationMember previousToken = null;
-            EquationMemberFactory factory = EquationMemberFactory.Factory;
             int totalNumbers = 0;
             int totalBinaryOpts = 0;            
             while (equationString.Length > 0 && !string.IsNullOrWhiteSpace(equationString))
             {
                 int startingLength = equationString.Length;
 
-                FactoryResult result = factory.CreateEquationMember(equationString, previousToken, parameterNames);
+                FactoryResult result = EquationMemberFactory.CreateEquationMember(equationString, previousToken, parameterNames);
                 previousToken = result?.Member;
                 equationString = result?.RemainingString;
                 if (previousToken is Number || previousToken is Variable) totalNumbers++;
@@ -106,6 +111,7 @@ namespace StringMath
                     throw new ArgumentException();
                 outputQueue.Enqueue(precedenceStack.Pop());
             }
+            EquationArguments = (IReadOnlyList<string>)parameterNames;
             return outputQueue;
         }
 

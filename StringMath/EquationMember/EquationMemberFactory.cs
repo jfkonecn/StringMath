@@ -18,8 +18,8 @@ namespace StringMath.EquationMember
 
         internal FactoryResult CreateEquationMember(
             string equationString, 
-            IEquationMember previousMember, 
-            params string[] parameterNames)
+            IEquationMember previousMember,
+            IList<string> parameterNames)
         {
             FactoryResult result = null;
             foreach (var fun in GetParsers(parameterNames))
@@ -31,7 +31,7 @@ namespace StringMath.EquationMember
         }
 
 
-        private IEnumerable<Func<string, IEquationMember, FactoryResult>> GetParsers(params string[] parameterNames)
+        private IEnumerable<Func<string, IEquationMember, FactoryResult>> GetParsers(IList<string> parameterNames)
         {
             yield return TryGetBinaryOperator;
             yield return TryGetUnaryOperator;
@@ -62,7 +62,7 @@ namespace StringMath.EquationMember
 
 
         private FactoryResult TryToExtractVariable(string equationString, 
-            IEquationMember previousMember, params string[] parameterNames)
+            IEquationMember previousMember, IList<string> parameterNames)
         {
             return RegularExpressionParser(
                 Variable.RegularExpression,
@@ -70,21 +70,15 @@ namespace StringMath.EquationMember
                 equationString,
                 (x) => 
                 {
-                    if(int.TryParse(x, out int idx))
+                    if (!parameterNames.Contains(x))
                     {
-                        return new Variable(idx);
+
+                        parameterNames.Add(x);
+                        parameterNames.OrderBy(name => name);
                     }
-                    if (parameterNames == null)
-                        throw new ArgumentException("You must name the order you want to pass variables in!");
-                    for (int i = 0; i < parameterNames.Length; i++)
-                    {
-                        if (parameterNames[i] == x)
-                            return new Variable(i);
-                    }
-                    throw new ArgumentException($"Could not find {x} in the passed parameterNames!");
+                    return new Variable(parameterNames.IndexOf(x));
                 });
         }
-
 
 
         /// <summary>

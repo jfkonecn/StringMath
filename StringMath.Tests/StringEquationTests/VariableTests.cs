@@ -15,15 +15,27 @@ namespace StringMath.Tests.StringEquationTests
         public void Variable(string equStr, double exp, params double[] nums)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
-            Assert.That(eq.Evaluate(nums), Is.EqualTo(exp).Within(0.1).Percent);
+
+            double result = eq.Evaluate(nums);
+
+            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(2));
+            Assert.That(eq.EquationArguments.ElementAt(0), Is.EqualTo("0"));
+            Assert.That(eq.EquationArguments.ElementAt(1), Is.EqualTo("1"));
+            Assert.That(result, Is.EqualTo(exp).Within(0.1).Percent);
         }
 
         [Test]
-        [TestCase("$My.Good - $Inputs.Are.Fun", 40, 10, 50)]
+        [TestCase("$My.Good - $Inputs.Are.Fun", 40, 50, 10)]
         public void VarNameTests(string equStr, double exp, params double[] nums)
         {
-            IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr,  "Inputs.Are.Fun", "My.Good");
-            Assert.That(eq.Evaluate(nums), Is.EqualTo(exp).Within(0.1).Percent);
+            IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
+
+            double result = eq.Evaluate(nums);
+
+            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(2));
+            Assert.That(eq.EquationArguments.ElementAt(0), Is.EqualTo("My.Good"));
+            Assert.That(eq.EquationArguments.ElementAt(1), Is.EqualTo("Inputs.Are.Fun"));
+            Assert.That(result, Is.EqualTo(exp).Within(0.1).Percent);
         }
     }
 }

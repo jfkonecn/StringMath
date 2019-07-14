@@ -2,6 +2,6 @@
 {
     public interface IStringEquationFactory
     {
-        IStringEquation CreateStringEquation(string stringEquation, params string[] parameterNames);
+        IStringEquation CreateStringEquation(string stringEquation);
     }
 }
