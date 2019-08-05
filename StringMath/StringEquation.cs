@@ -182,7 +182,7 @@ namespace StringMath
                 throw new NotImplementedException();
             }
 
-            if(precedenceStack.Peek() is Function)
+            if(precedenceStack.Count() > 0 && precedenceStack.Peek() is Function)
             {
                 functionStack.Pop();
             }

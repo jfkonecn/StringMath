@@ -12,15 +12,19 @@ namespace StringMath.Tests.StringEquationTests
     {
         [Test]
         [TestCase("$0 + $1", 60, 10, 50)]
+        [TestCase("($0 - 273.15) * 9 / 5 + 32", 212, 373.15)]
+        [TestCase("($0 - 32) * 5 / 9 + 273.15", 373.15, 212)]
         public void Variable(string equStr, double exp, params double[] nums)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
 
             double result = eq.Evaluate(nums);
 
-            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(2));
-            Assert.That(eq.EquationArguments.ElementAt(0), Is.EqualTo("0"));
-            Assert.That(eq.EquationArguments.ElementAt(1), Is.EqualTo("1"));
+            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(nums.Length));
+            for (int i = 0; i < nums.Length; i++)
+            {
+                Assert.That(eq.EquationArguments.ElementAt(i), Is.EqualTo(i.ToString()));
+            }
             Assert.That(result, Is.EqualTo(exp).Within(0.1).Percent);
         }
 
