@@ -17,8 +17,6 @@ namespace StringMath.Tests.StringEquationTests
         [TestCase("--1")]
         [TestCase("-+1")]
         [TestCase("+-1")]
-        [TestCase("+ 1")]
-        [TestCase("- 1")]
         [TestCase("1 -")]
         [TestCase("1 *")]
         [TestCase("1 /")]

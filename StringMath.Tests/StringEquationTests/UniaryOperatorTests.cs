@@ -11,19 +11,21 @@ namespace StringMath.Tests.StringEquationTests
     public class UniaryOperatorTests
     {
         [Test]
-        [TestCase(1)]
-        public void UniaryPlusShouldWork(double x)
+        [TestCase("+ 1", 1)]
+        [TestCase("+(1 + 1)", 2)]
+        public void UniaryPlusShouldWork(string stringEquation, double expected)
         {
-            IStringEquation eq = StringEquationSetup.BuildStringEquation($"+({x} + {x})");
-            Assert.AreEqual(eq.Evaluate(x), x + x);
+            IStringEquation eq = StringEquationSetup.BuildStringEquation(stringEquation);
+            Assert.AreEqual(eq.Evaluate(), expected);
         }
 
         [Test]
-        [TestCase(1)]
-        public void UniaryMinusShouldWork(double x)
+        [TestCase("- 1", -1)]
+        [TestCase("-(1 + 1)", -2)]
+        public void UniaryMinusShouldWork(string stringEquation, double expected)
         {
-            IStringEquation eq = StringEquationSetup.BuildStringEquation($"-({x} + {x})");
-            Assert.AreEqual(eq.Evaluate(x), -(x + x));
+            IStringEquation eq = StringEquationSetup.BuildStringEquation(stringEquation);
+            Assert.AreEqual(eq.Evaluate(), expected);
         }
     }
 }

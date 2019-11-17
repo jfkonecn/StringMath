@@ -37,13 +37,13 @@ namespace StringMath.EquationMember
         public static readonly List<UnaryOperator> AllOperators =
         new List<UnaryOperator>()
         {
-            new UnaryOperator(@"^\s*\+(?![\s\d-−+]+)",
+            new UnaryOperator(@"^\s*\+(?=[\s\d\(]+)",
                 (double num)=>{ return num; }),
-            new UnaryOperator(@"^\s*[-−](?![\s\d-−+]+)",
+            new UnaryOperator(@"^\s*[-−](?=[\s\d\(]+)",
                 (double num)=>{ return -num; })
         };
 
-        public ushort Precedence { get { return 4; } }
+        public ushort Precedence { get { return 5; } }
 
         public OperatorAssociativity Associativity { get { return OperatorAssociativity.RightAssociative; } }
 

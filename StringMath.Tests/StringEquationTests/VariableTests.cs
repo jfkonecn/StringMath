@@ -36,9 +36,20 @@ namespace StringMath.Tests.StringEquationTests
 
             double result = eq.Evaluate(nums);
 
-            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(2));
+            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(nums.Count()));
             Assert.That(eq.EquationArguments.ElementAt(0), Is.EqualTo("My.Good"));
             Assert.That(eq.EquationArguments.ElementAt(1), Is.EqualTo("Inputs.Are.Fun"));
+            Assert.That(result, Is.EqualTo(exp).Within(0.1).Percent);
+        }
+
+        [TestCase("$VolumetricFlowRate / ($InletPipeArea * \r\n                            Sqrt((2 * $PressureDrop) / ($Density * \r\n                                ($InletPipeArea ^ 2 / $OrificeArea ^ 2 - 1))))", 0, 1, 1, 1, 1, 1)]
+        public void ComplieTests(string equStr, double exp, params double[] nums)
+        {
+            IStringEquation eq = StringEquationSetup.BuildStringEquation(equStr);
+
+            double result = eq.Evaluate(nums);
+
+            Assert.That(eq.EquationArguments.Count(), Is.EqualTo(nums.Count()));
             Assert.That(result, Is.EqualTo(exp).Within(0.1).Percent);
         }
     }

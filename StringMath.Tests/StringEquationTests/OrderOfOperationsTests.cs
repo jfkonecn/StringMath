@@ -17,6 +17,7 @@ namespace StringMath.Tests.StringEquationTests
         [TestCase("7 + (6 * 5^2 + 3)", 160)]
         [TestCase("7 > 1 && 8 < 10", 1)]
         [TestCase("7 > 1 && 8 > 10", 0)]
+        [TestCase("-5^2", 25)]
         public void OrderOfOperations(string strEq, double exp)
         {
             IStringEquation eq = StringEquationSetup.BuildStringEquation(strEq);

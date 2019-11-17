@@ -22,9 +22,10 @@ namespace StringMath.EquationMember
             IList<string> parameterNames)
         {
             FactoryResult result = null;
+            string refinedEquation = new Regex(@"\s").Replace(equationString, "");
             foreach (var fun in GetParsers(parameterNames))
             {
-                result = fun(equationString, previousMember);
+                result = fun(refinedEquation, previousMember);
                 if (result != null) break;
             }
             return result;

@@ -13,6 +13,6 @@ namespace StringMath.EquationMember
         public static readonly Bracket RightBracket = new Bracket(@"^\s*\)");
         public string RegularExpression { get; }
 
-        public ushort Precedence { get { return 5; } }
+        public ushort Precedence { get { return 6; } }
     }
 }

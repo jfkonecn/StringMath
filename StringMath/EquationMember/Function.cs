@@ -16,7 +16,7 @@ namespace StringMath.EquationMember
                 MethodInfo = typeof(Math).GetMethod(methodName);
 
             if (MethodInfo == null)
-                throw new ArgumentException();
+                throw new ArgumentException($"Unknown method name : {methodName}");
         }
 
         public ushort TotalParameters { get; internal set; } = 1;        
